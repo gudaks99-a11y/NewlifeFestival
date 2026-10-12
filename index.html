@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>새생명축제 태신자 현황</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+:root{--bg:#08111f;--card:#0f1c33;--card2:#14274a;--line:#233a63;--fg:#eef4ff;--mut:#8fa6cc;--amber:#5ec8ff;--ember:#4a6cff;--rose:#ff6b8a;--gold:#bfe3ff}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--fg);font-family:"Pretendard Variable",Pretendard,"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:-20% -10% auto -10%;height:70vh;background:radial-gradient(60% 60% at 25% 20%,rgba(74,108,255,.22),transparent 70%),radial-gradient(50% 50% at 80% 10%,rgba(94,200,255,.16),transparent 70%);pointer-events:none;z-index:0}
+.w{position:relative;z-index:1;max-width:1040px;margin:0 auto;padding:36px 18px 56px}
+.tag{display:inline-flex;gap:8px;align-items:center;font-size:.78rem;letter-spacing:.14em;color:var(--amber);font-weight:600}
+.tag i{width:8px;height:8px;border-radius:50%;background:var(--ember);box-shadow:0 0 0 0 rgba(74,108,255,.7);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(74,108,255,0)}100%{box-shadow:0 0 0 0 rgba(74,108,255,0)}}
+h1{font-size:clamp(1.9rem,5vw,2.9rem);font-weight:800;letter-spacing:-.03em;margin:8px 0 4px;background:linear-gradient(100deg,#fff 20%,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--mut);font-size:.98rem}
+.hero{display:grid;grid-template-columns:minmax(0,320px) 1fr;gap:18px;margin:26px 0 18px}
+@media(max-width:720px){.hero{grid-template-columns:1fr}}
+.card{background:linear-gradient(180deg,var(--card2),var(--card));border:1px solid var(--line);border-radius:22px;padding:22px;position:relative;overflow:hidden}
+.ringbox{display:grid;place-items:center;padding:26px 18px}
+.ring{position:relative;width:min(240px,70vw);aspect-ratio:1}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg);overflow:visible}
+.ring .t{stroke:#1b2f52}.ring .p{stroke:url(#g);stroke-linecap:round;stroke-dasharray:0 1000;filter:drop-shadow(0 0 10px rgba(74,108,255,.55))}
+.ring .c{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.ring b{font-size:3.3rem;font-weight:800;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.ring b small{font-size:1.4rem;font-weight:600;color:var(--amber)}
+.ring .c>span{color:var(--mut);font-size:.82rem;margin-top:6px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.stat .l{color:var(--mut);font-size:.82rem;font-weight:500}
+.stat .v{font-size:clamp(2.2rem,6vw,3.2rem);font-weight:800;letter-spacing:-.04em;line-height:1.1;font-variant-numeric:tabular-nums;margin-top:4px}
+.stat .v em{font-style:normal;font-size:1rem;font-weight:600;color:var(--mut);margin-left:4px;letter-spacing:0}
+.stat.big{grid-column:1/-1;background:linear-gradient(135deg,rgba(74,108,255,.20),rgba(94,200,255,.08)),var(--card);border-color:rgba(110,170,255,.35)}
+.stat.big .v{background:linear-gradient(100deg,var(--amber),var(--ember));-webkit-background-clip:text;background-clip:text;color:transparent;font-size:clamp(3rem,9vw,4.6rem)}
+.stat .n{color:var(--mut);font-size:.8rem;margin-top:4px}
+.bar2{height:6px;border-radius:6px;background:#1b2f52;margin-top:12px;overflow:hidden}.bar2 i{display:block;height:100%;width:0;border-radius:6px;background:linear-gradient(90deg,var(--amber),var(--ember));transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+.head{display:flex;flex-wrap:wrap;gap:10px;align-items:end;justify-content:space-between;margin:30px 0 14px}
+.head h2{font-size:1.25rem;font-weight:700;letter-spacing:-.02em}.head p{color:var(--mut);font-size:.82rem}
+.seg{display:inline-flex;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:3px}
+.seg button{all:unset;cursor:pointer;padding:7px 14px;border-radius:999px;font-size:.82rem;font-weight:600;color:var(--mut);transition:.25s}
+.seg button.on{background:linear-gradient(100deg,var(--amber),var(--ember));color:#06101f}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,235px),1fr));gap:12px}
+.z{padding:16px 16px 14px;transition:transform .25s,border-color .25s,box-shadow .25s;opacity:0;transform:translateY(14px)}
+.z.in{opacity:1;transform:none;transition:opacity .6s,transform .6s cubic-bezier(.2,.8,.2,1),border-color .25s,box-shadow .25s}
+.z:hover{transform:translateY(-4px);border-color:rgba(110,170,255,.55);box-shadow:0 14px 34px -14px rgba(74,108,255,.5)}
+.z .top{display:flex;justify-content:space-between;align-items:baseline}
+.z .nm{font-weight:700;font-size:1.02rem}.z .pc{font-size:1.55rem;font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.z .pc.hi{background:linear-gradient(100deg,var(--amber),var(--ember));-webkit-background-clip:text;background-clip:text;color:transparent}
+.z .pc.zero{color:var(--rose)}
+.z .m{display:flex;justify-content:space-between;color:var(--mut);font-size:.8rem;margin-top:8px;font-variant-numeric:tabular-nums}
+.z .m b{color:var(--fg);font-weight:600}
+.badge{position:absolute;top:12px;right:12px;font-size:.68rem;font-weight:700;padding:3px 8px;border-radius:99px;background:rgba(94,200,255,.16);color:var(--amber)}
+.z.has .top{padding-right:0}
+.f{margin-top:30px;color:var(--mut);font-size:.78rem;line-height:1.8;border-top:1px solid var(--line);padding-top:16px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.z{opacity:1;transform:none}}
+</style></head><body><div class="w">
+<div class="tag"><i></i>2026 효촌교회 새생명축제 · LIVE 현황</div>
+<h1>함께, 동행 — 태신자 현황</h1>
+<p class="sub" id="tk"></p>
+<section class="hero">
+ <div class="card ringbox"><div class="ring">
+  <svg viewBox="0 0 120 120"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5ec8ff"/><stop offset="1" stop-color="#8a5cff"/></linearGradient></defs>
+  <circle class="t" cx="60" cy="60" r="50" fill="none" stroke-width="10"/><circle class="p" id="arc" cx="60" cy="60" r="50" fill="none" stroke-width="10" pathLength="100"/></svg>
+  <div class="c"><b><span id="rate">0</span><small>%</small></b><span>태신자 작성 제출률</span></div></div></div>
+ <div class="stats">
+  <div class="card stat big"><div class="l">등록된 태신자</div><div class="v"><span id="pr">0</span><em>명</em></div><div class="n">현재까지 등록된 태신자</div></div>
+  <div class="card stat"><div class="l">제출 완료</div><div class="v"><span id="sub">0</span><em id="of"></em></div><div class="bar2"><i id="b1"></i></div></div>
+  <div class="card stat"><div class="l">아직 제출 전</div><div class="v"><span id="left">0</span><em>명</em></div><div class="n">10월 18일까지</div></div>
+ </div>
+</section>
+<div class="head"><div><h2>구역별 현황</h2><p>제출한 성도 ÷ 구역 편성표 인원</p></div>
+<div class="seg" id="seg"><button class="on" data-k="order">구역순</button><button data-k="rate">제출률순</button><button data-k="prayer">태신자순</button></div></div>
+<div class="grid" id="grid"></div>
+<div class="f">· 기준: 2026년 10월 12일 17:01 (스냅샷) · 종이 등록카드는 온라인으로 모두 입력 반영<br>· 담임목사 사모님은 11구역·16구역에 모두 편성되어 편성 인원에 중복 1명 포함<br>· 청년부는 구역 편성표가 없어 제출률 없이 제출·태신자 수만 표시<br>· 이름·연락처 등 개인정보 없이 숫자만 표시됩니다</div>
+</div>
+<script>
+const Z=[{"zone": "1구역", "order": 1, "roster": 11, "submitted": 3, "prayer": 6}, {"zone": "2구역", "order": 2, "roster": 11, "submitted": 2, "prayer": 7}, {"zone": "3구역", "order": 3, "roster": 10, "submitted": 3, "prayer": 4}, {"zone": "4구역", "order": 4, "roster": 9, "submitted": 2, "prayer": 7}, {"zone": "5구역", "order": 5, "roster": 15, "submitted": 0, "prayer": 0}, {"zone": "6구역", "order": 6, "roster": 10, "submitted": 2, "prayer": 6}, {"zone": "7구역", "order": 7, "roster": 9, "submitted": 4, "prayer": 10}, {"zone": "8구역", "order": 8, "roster": 13, "submitted": 2, "prayer": 4}, {"zone": "9구역", "order": 9, "roster": 10, "submitted": 0, "prayer": 0}, {"zone": "10구역", "order": 10, "roster": 9, "submitted": 2, "prayer": 4}, {"zone": "11구역", "order": 11, "roster": 9, "submitted": 3, "prayer": 5}, {"zone": "12구역", "order": 12, "roster": 9, "submitted": 1, "prayer": 3}, {"zone": "13구역", "order": 13, "roster": 11, "submitted": 3, "prayer": 12}, {"zone": "14구역", "order": 14, "roster": 9, "submitted": 0, "prayer": 0}, {"zone": "15구역", "order": 15, "roster": 7, "submitted": 4, "prayer": 9}, {"zone": "16구역", "order": 16, "roster": 16, "submitted": 0, "prayer": 0}, {"zone": "기타", "order": 17, "roster": 18, "submitted": 0, "prayer": 0}, {"zone": "청년부", "order": 18, "roster": null, "submitted": 4, "prayer": 11}];
+const $=i=>document.getElementById(i);
+const rows=Z.filter(r=>r.roster!=null);
+const S=rows.reduce((a,r)=>a+r.submitted,0),N=rows.reduce((a,r)=>a+r.roster,0),P=Z.reduce((a,r)=>a+r.prayer,0);
+const R=S/N;
+Z.forEach(r=>r.rate=r.roster?r.submitted/r.roster:-1);
+$("tk").textContent="성도 "+N+"명 중 "+S+"명이 제출, 태신자 "+P+"명이 등록되었습니다.";
+$("of").textContent="/ "+N+"명";
+function count(el,to,dec,dur){const t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-p,3);el.textContent=(to*e).toFixed(dec);if(p<1)requestAnimationFrame(f)})(t0)}
+requestAnimationFrame(()=>{
+ count($("rate"),R*100,1,1600);count($("pr"),P,0,1600);count($("sub"),S,0,1400);count($("left"),N-S,0,1400);
+ $("arc").style.transition="stroke-dasharray 1.6s cubic-bezier(.2,.8,.2,1)";$("arc").style.strokeDasharray=(R*100)+" 100";
+ $("b1").style.width=(R*100)+"%";
+});
+const mx=Math.max(...Z.map(r=>r.prayer));const topR=Math.max(...Z.map(r=>r.rate));
+function draw(k){
+ const g=$("grid");g.textContent="";
+ const L=Z.slice().sort((a,b)=>k==="order"?a.order-b.order:k==="rate"?b.rate-a.rate||a.order-b.order:b.prayer-a.prayer||a.order-b.order);
+ L.forEach((r,i)=>{
+  const d=document.createElement("div");d.className="card z";
+  const cls=r.rate<0?"":r.rate===0?"zero":r.rate>=R?"hi":"";
+  const top1=r.rate===topR&&topR>0&&r.roster!=null;
+  d.innerHTML='<div class="top"><span class="nm"></span><span class="pc '+cls+'"></span></div><div class="bar2"><i></i></div><div class="m"><span class="a"></span><span class="b"></span></div>';
+  d.querySelector(".nm").textContent=r.zone;
+  d.querySelector(".pc").textContent=r.rate<0?"—":(r.rate*100).toFixed(1)+"%";
+  d.querySelector(".a").innerHTML="제출 <b></b>";d.querySelector(".a b").textContent=r.roster==null?r.submitted+"명":r.submitted+" / "+r.roster+"명";
+  d.querySelector(".b").innerHTML="태신자 <b></b>";d.querySelector(".b b").textContent=r.prayer+"명";
+  if(top1){const b=document.createElement("span");b.className="badge";b.textContent="1위";d.appendChild(b);d.querySelector(".top").style.paddingRight="38px"}
+  g.appendChild(d);
+  setTimeout(()=>{d.classList.add("in");d.querySelector(".bar2 i").style.width=(r.rate<0?0:Math.max(r.rate*100,r.rate>0?3:0))+"%"},40+i*45);
+ });
+}
+draw("order");
+$("seg").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;[...$("seg").children].forEach(x=>x.classList.toggle("on",x===b));draw(b.dataset.k)});
+</script></body></html>
