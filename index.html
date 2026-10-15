@@ -54,6 +54,25 @@ h1{font-size:clamp(1.9rem,5vw,2.9rem);font-weight:800;letter-spacing:-.03em;marg
 .badge{position:absolute;top:12px;right:12px;font-size:.68rem;font-weight:700;padding:3px 8px;border-radius:99px;background:rgba(94,200,255,.16);color:var(--amber)}
 .z.has .top{padding-right:0}
 .f{margin-top:30px;color:var(--mut);font-size:.78rem;line-height:1.8;border-top:1px solid var(--line);padding-top:16px}
+
+.z{cursor:pointer}.z:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+.z .go{color:var(--amber);font-size:.78rem;font-weight:600;margin-top:10px;display:flex;justify-content:space-between;align-items:center}
+.ov{position:fixed;inset:0;z-index:50;background:rgba(3,8,18,.72);backdrop-filter:blur(6px);display:none;align-items:flex-end;justify-content:center}
+.ov.on{display:flex}
+.sheet{width:min(720px,100%);max-height:88vh;display:flex;flex-direction:column;background:linear-gradient(180deg,#16294d,#0d1a31);border:1px solid var(--line);border-radius:24px 24px 0 0;animation:up .35s cubic-bezier(.2,.8,.2,1)}
+@media(min-width:760px){.ov{align-items:center}.sheet{border-radius:24px;max-height:82vh}}
+@keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+.sh{display:flex;justify-content:space-between;align-items:flex-start;padding:22px 22px 12px}
+.sh h3{font-size:1.45rem;font-weight:800;letter-spacing:-.03em}.sh p{color:var(--mut);font-size:.82rem;margin-top:2px}
+.x{all:unset;cursor:pointer;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.08);font-size:1.2rem;line-height:1}
+.x:hover{background:rgba(255,255,255,.16)}
+.list{overflow:auto;padding:4px 22px 22px;display:grid;gap:10px}
+.it{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.it b{font-size:1.08rem;font-weight:700;display:flex;gap:10px;align-items:center}
+.it b i{font-style:normal;font-size:.72rem;font-weight:700;color:#06101f;background:linear-gradient(100deg,var(--amber),var(--ember));border-radius:99px;min-width:22px;height:22px;display:grid;place-items:center;padding:0 6px}
+.it span{display:block;margin-top:6px;color:#d4e2fb;font-size:.95rem;white-space:pre-wrap;word-break:keep-all}
+.it span.no{color:var(--mut);font-size:.85rem}
+.empty{color:var(--mut);text-align:center;padding:30px 0}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.z{opacity:1;transform:none}}
 </style></head><body><div class="w">
 <div class="tag" id="live"><i></i>2026 효촌교회 새생명축제 · LIVE 현황</div>
@@ -73,6 +92,7 @@ h1{font-size:clamp(1.9rem,5vw,2.9rem);font-weight:800;letter-spacing:-.03em;marg
 <div class="head"><div><h2>구역별 현황</h2><p>제출한 성도 ÷ 구역 편성표 인원</p></div>
 <div class="seg" id="seg"><button class="on" data-k="order">구역순</button><button data-k="rate">제출률순</button><button data-k="prayer">태신자순</button></div></div>
 <div class="grid" id="grid"></div>
+<div class="ov" id="ov"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="sh"><div><h3 id="mt"></h3><p id="ms"></p></div><button class="x" id="mx" aria-label="닫기">✕</button></div><div class="list" id="ml"></div></div></div>
 <div class="f"><span id="up"></span> · 1분마다 자동 갱신</div>
 </div>
 <script>
@@ -90,7 +110,8 @@ function draw(){
   const d=document.createElement("div");d.className="card z";
   const cls=r.rate<0?"":r.rate===0?"zero":r.rate>=R?"hi":"";
   const top1=r.rate===topR&&topR>0&&r.roster!=null;
-  d.innerHTML='<div class="top"><span class="nm"></span><span class="pc '+cls+'"></span></div><div class="bar2"><i></i></div><div class="m"><span class="a"></span><span class="b"></span></div>';
+  d.innerHTML='<div class="top"><span class="nm"></span><span class="pc '+cls+'"></span></div><div class="bar2"><i></i></div><div class="m"><span class="a"></span><span class="b"></span></div><div class="go"><span>이름·기도제목 보기</span><span>›</span></div>';
+  d.tabIndex=0;d.setAttribute("role","button");d.addEventListener("click",()=>openZone(r.zone));d.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();openZone(r.zone)}});
   d.querySelector(".nm").textContent=r.zone;
   d.querySelector(".pc").textContent=r.rate<0?"—":(r.rate*100).toFixed(1)+"%";
   d.querySelector(".a").innerHTML="제출 <b></b>";d.querySelector(".a b").textContent=r.roster==null?r.submitted+"명":r.submitted+" / "+r.roster+"명";
@@ -118,7 +139,22 @@ function parse(txt){
  return L.filter(c=>c[0]).map(c=>({zone:c[0],order:+c[1],roster:c[2]===""?null:+c[2],submitted:+c[3],prayer:+c[4],updated:c[5]||""}));
 }
 function stamp(iso){const d=iso?new Date(iso):new Date();$("up").textContent="마지막 갱신 "+(d.getMonth()+1)+"월 "+d.getDate()+"일 "+String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0")}
-async function load(){
+
+const PCSV=CSV.replace("?output=csv","")+"?gid=113184586&single=true&output=csv";
+let P=[],openName=null;
+function csvRows(s){const o=[];let r=[],c="",q=false;for(let i=0;i<s.length;i++){const ch=s[i];if(q){if(ch==='"'){if(s[i+1]==='"'){c+='"';i++}else q=false}else c+=ch}else if(ch==='"')q=true;else if(ch===","){r.push(c);c=""}else if(ch==="\n"||ch==="\r"){if(ch==="\r"&&s[i+1]==="\n")i++;r.push(c);c="";o.push(r);r=[]}else c+=ch}if(c!==""||r.length){r.push(c);o.push(r)}return o}
+function renderZone(){
+ const L=$("ml");L.textContent="";
+ const rows=P.filter(x=>x.zone===openName);
+ $("ms").textContent="이 구역 성도들이 올린 태신자 "+rows.length+"명 · 등록한 성도의 이름은 표시되지 않습니다";
+ if(!rows.length){const e=document.createElement("div");e.className="empty";e.textContent="아직 등록된 태신자가 없습니다";L.appendChild(e);return}
+ rows.forEach((x,i)=>{const d=document.createElement("div");d.className="it";const b=document.createElement("b");const n=document.createElement("i");n.textContent=i+1;b.appendChild(n);b.appendChild(document.createTextNode(x.name));d.appendChild(b);const s=document.createElement("span");if(x.prayer){s.textContent=x.prayer}else{s.className="no";s.textContent="기도제목 없음"}d.appendChild(s);L.appendChild(d)})
+}
+function openZone(z){openName=z;$("mt").textContent=z;renderZone();$("ov").classList.add("on");document.body.style.overflow="hidden";$("ml").scrollTop=0;$("mx").focus()}
+function closeZone(){openName=null;$("ov").classList.remove("on");document.body.style.overflow=""}
+$("mx").addEventListener("click",closeZone);$("ov").addEventListener("click",e=>{if(e.target===$("ov"))closeZone()});document.addEventListener("keydown",e=>{if(e.key==="Escape")closeZone()});
+async function loadP(){try{const r=await fetch(PCSV+"&t="+Date.now(),{cache:"no-store"});if(!r.ok)throw 0;const rs=csvRows(await r.text()).slice(1).filter(x=>x[0]);P=rs.map(x=>({zone:x[0],name:x[1]||"",prayer:(x[2]||"").trim()}));if(openName)renderZone()}catch(e){}}
+async function load(){loadP();
  try{
   const r=await fetch(CSV+"&t="+Date.now(),{cache:"no-store"});if(!r.ok)throw 0;
   const n=parse(await r.text());if(n.length<10)throw 0;
